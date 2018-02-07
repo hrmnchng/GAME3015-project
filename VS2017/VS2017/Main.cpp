@@ -1,15 +1,16 @@
-
 #include "CombustionEngine.h"
 
 
 
 int main(int argc, _TCHAR* argv[])
-	{
-		
-		CombustionEngine::Start();
+{
 	CombustionEngine::Initialize();
-		return 0;
-	}
+	CombustionEngine::Start();
+
+	return 0;
+}
+
+
 /*int main() {
 	sf::RenderWindow window({1024, 769}, "Hello World");
 	window.setFramerateLimit(30);

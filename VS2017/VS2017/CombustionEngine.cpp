@@ -1,4 +1,5 @@
 #include "CombustionEngine.h"
+#include "SplashScreen.h"
 
 #if defined(_DEBUG)
 #define GCC_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
@@ -8,7 +9,11 @@
 void CombustionEngine::Start(void)
 {
 		sf::RenderWindow window({ 1024, 769 }, "GAME NAME");
-		window.setFramerateLimit(30);
+		window.setFramerateLimit(60);
+
+		SplashScreen splashScreen;
+		splashScreen.Show(window);
+
 		while (window.isOpen())
 		{
 			sf::Event event;
@@ -18,6 +23,7 @@ void CombustionEngine::Start(void)
 					window.close();
 			}
 			window.clear();
+			splashScreen.Show(window);
 			window.display();
 		}
 
@@ -106,8 +112,6 @@ DWORD CombustionEngine::ReadCPUSpeed()
 	
 	return dwMHz;
 }
-
-
 
 
 void CombustionEngine::Initialize(void){

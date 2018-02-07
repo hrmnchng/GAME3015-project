@@ -2,8 +2,8 @@
 #include "SFML\Window.hpp"
 #include "SFML\Graphics.hpp"
 #include <windows.h> 
-#include <tchar.h>
 #include <direct.h>
+#include <tchar.h>
 
 class CombustionEngine
 {
