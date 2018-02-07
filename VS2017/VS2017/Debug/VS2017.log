@@ -1,2 +1,4 @@
-﻿  VS2017.vcxproj -> C:\Users\Tech\source\repos\VS2017\Debug\VS2017.exe
-  VS2017.vcxproj -> C:\Users\Tech\source\repos\VS2017\Debug\VS2017.pdb (Partial PDB)
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets(76,5): warning : The process cannot access the file 'c:\users\herman\documents\github\game3015-project\vs2017\debug\vs2017.exe' because it is being used by another process.
+  Main.cpp
+  VS2017.vcxproj -> C:\Users\herman\Documents\GitHub\GAME3015-project\VS2017\Debug\VS2017.exe
+  VS2017.vcxproj -> C:\Users\herman\Documents\GitHub\GAME3015-project\VS2017\Debug\VS2017.pdb (Partial PDB)
