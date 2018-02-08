@@ -8,29 +8,30 @@
 
 void CombustionEngine::Start(void)
 {
-		sf::RenderWindow window({ 1024, 769 }, "GAME NAME");
-		window.setFramerateLimit(60);
+	//if (_gameState != Uninitialized)
+		//return;
+		//_gameState = CombustionEngine::Playing;
 
-		SplashScreen splashScreen;
-		splashScreen.Show(window);
+	sf::RenderWindow mainWindow({ 1024, 769 }, "GAME NAME");
+	mainWindow.setFramerateLimit(60);
 
-		while (window.isOpen())
+	SplashScreen splashScreen;
+	splashScreen.Show(mainWindow);
+		while (mainWindow.isOpen())
 		{
 			sf::Event event;
-			while (window.pollEvent(event))
+			while (mainWindow.pollEvent(event))
 			{
 				if (event.type == sf::Event::Closed)
-					window.close();
+					mainWindow.close();
 			}
-			window.clear();
-			splashScreen.Show(window);
-			window.display();
+			mainWindow.clear();
+			splashScreen.Show(mainWindow);
+			mainWindow.display();
 		}
 
-	//if (_gameState != Uninitialized)
-	//	return;
-	//_mainWindow.Create(sf::VideoMode(1024, 768, 32), "GameName");
-	//_gameState = CombustionEngine::Playing;
+
+	
 
 	//while (!IsExiting())
 	//{
@@ -113,6 +114,12 @@ DWORD CombustionEngine::ReadCPUSpeed()
 	return dwMHz;
 }
 
+bool CombustionEngine::InitializeGraphics()
+{
+
+
+	return true;
+}
 
 void CombustionEngine::Initialize(void){
 
@@ -120,5 +127,6 @@ void CombustionEngine::Initialize(void){
 	bool IsOnlyInstance(LPCTSTR gameTitle);
 	bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded);
 	DWORD ReadCPUSpeed();
-
+	bool InitializeGraphics();
+	//_gameState = CombustionEngine::Initialized;
 }
