@@ -8,29 +8,24 @@
 class CombustionEngine
 {
 public:
-	static void Start();
+	static void Start();	
 	static void Initialize();
 
+	static bool CheckStorage(const DWORDLONG diskSpaceNeeded);
+	static bool IsOnlyInstance(LPCTSTR gameTitle);
+	static bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded);
+	static DWORD ReadCPUSpeed();
+
+	static bool InitializeGraphics();
+	static bool InitializeAudio();
+
+private:
 	enum GameState {
 		Uninitialized, Initialized, ShowingSplash, Paused,
 		ShowingMenu, Playing, Exiting
 	};
-	 static GameState _gameState;
-
-	 bool CheckStorage(const DWORDLONG diskSpaceNeeded);
-	 bool IsOnlyInstance(LPCTSTR gameTitle);
-	 bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded);
-	 DWORD ReadCPUSpeed();
-
-	 bool InitializeGraphics();
-
-	 bool initother();
-private:
+	static GameState _gameState;
 	static bool IsExiting();
 	static void GameLoop();
-	
-
-	
-
 	
 };

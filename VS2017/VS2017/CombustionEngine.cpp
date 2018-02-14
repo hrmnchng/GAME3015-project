@@ -31,8 +31,6 @@ void CombustionEngine::Start(void)
 		}
 
 
-	
-
 	//while (!IsExiting())
 	//{
 	//	GameLoop();
@@ -116,9 +114,20 @@ DWORD CombustionEngine::ReadCPUSpeed()
 
 bool CombustionEngine::InitializeGraphics()
 {
-
-
+	std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+	for (std::size_t i = 0; i < modes.size(); ++i)
+	{
+		sf::VideoMode mode = modes[i];
+	}
+	// Create a window with the same pixel depth as the desktop
+	//sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+	//sf::RenderWindow window.create(sf::VideoMode(1024, 768, desktop.bitsPerPixel), "SFML window");
 	return true;
+}
+
+bool CombustionEngine::InitializeAudio()
+{
+	return false;
 }
 
 void CombustionEngine::Initialize(void){
@@ -126,7 +135,8 @@ void CombustionEngine::Initialize(void){
 	bool CheckStorage(const DWORDLONG diskSpaceNeeded);
 	bool IsOnlyInstance(LPCTSTR gameTitle);
 	bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded);
-	DWORD ReadCPUSpeed();
-	bool InitializeGraphics();
+	ReadCPUSpeed();
+	InitializeGraphics();
+	InitializeAudio();
 	//_gameState = CombustionEngine::Initialized;
 }

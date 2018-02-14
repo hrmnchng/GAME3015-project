@@ -1,5 +1,5 @@
 #pragma once
-#include "SceneGraph.h"
+#include "GameObject.h"
 #include <string.h>
 
 class GameObject {
