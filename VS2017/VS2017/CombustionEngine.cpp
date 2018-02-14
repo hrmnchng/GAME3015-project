@@ -9,8 +9,8 @@
 void CombustionEngine::Start(void)
 {
 	//if (_gameState != Uninitialized)
-		//return;
-		//_gameState = CombustionEngine::Playing;
+	//return;
+	//_gameState = CombustionEngine::Playing;
 
 	sf::RenderWindow mainWindow({ 1024, 769 }, "GAME NAME");
 	mainWindow.setFramerateLimit(60);
