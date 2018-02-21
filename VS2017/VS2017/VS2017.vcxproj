@@ -126,16 +126,13 @@
   <ItemGroup>
     <ClCompile Include="CombustionEngine.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="SceneGraph.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
-    <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CombustionEngine.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="SplashScreen.h" />
-    <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
