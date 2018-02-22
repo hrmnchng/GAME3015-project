@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include <string.h>
 #include "TransformComponent.h"
+#include "RigidBody.h"
 
 class GameObject {
 
@@ -10,7 +11,6 @@ public:
 	std::vector<GameObject*> children;
 
 	
-
 	sf::Image image;
 	sf::Sprite sprite;
 

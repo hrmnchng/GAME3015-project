@@ -5,7 +5,8 @@
 class Scene
 {
 public:
-	std::vector<GameObject*> Gameobjects;
+	GameObject GameObjects [] ;
+	//std::vector<GameObject*> GameOList;
 
 private:
 	void AddGameObject();

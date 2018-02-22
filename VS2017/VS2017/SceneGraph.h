@@ -3,7 +3,7 @@
 class SceneGraph
 {
 public:
-	SceneGraph* scene;
+	SceneGraph* Scene;
 	
 
 private:
