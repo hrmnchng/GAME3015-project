@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SPLASH_SCREEN_H
+#define SPLASH_SCREEN_H
 #include "CombustionEngine.h"
 
 class SplashScreen {
@@ -10,3 +11,5 @@ public:
 	sf::Sprite sprite;
 
 };
+
+#endif

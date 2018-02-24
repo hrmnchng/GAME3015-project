@@ -1,43 +1,46 @@
 #include "CombustionEngine.h"
 #include "SplashScreen.h"
+#include <iostream>
 
 #if defined(_DEBUG)
-#define GCC_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+	#define GCC_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
+const char* CombustionEngine::engineName = "COMBUSTION";
+CombustionEngine::GameState CombustionEngine::_gameState = CombustionEngine::Uninitialized;
+SceneGraph CombustionEngine::sceneGraph;
 
 void CombustionEngine::Start(void)
 {
-	//if (_gameState != Uninitialized)
-	//return;
-	//_gameState = CombustionEngine::Playing;
+	_gameState = CombustionEngine::Playing;
 
-	sf::RenderWindow mainWindow({ 1024, 769 }, "GAME NAME");
+	sf::RenderWindow mainWindow({ 1024, 769 }, "JAILBREAK BOB GOES TO SPACE");
 	mainWindow.setFramerateLimit(60);
 
-	SplashScreen splashScreen;
-	splashScreen.Show(mainWindow);
-		while (mainWindow.isOpen())
-		{
-			sf::Event event;
-			while (mainWindow.pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed)
-					mainWindow.close();
-			}
-			mainWindow.clear();
-			splashScreen.Show(mainWindow);
-			mainWindow.display();
-		}
-
-
-	//while (!IsExiting())
-	//{
-	//	GameLoop();
-	//}
-	//_mainWindow.Close();
+	GameLoop(mainWindow);
 }
 
+void CombustionEngine::GameLoop(sf::RenderWindow& mainWindow)
+{
+	sceneGraph.LoadScene("splash");
+	sceneGraph.Start();
+
+	float deltaTime = 0.0f; // Calculate time between frames
+
+	while (mainWindow.isOpen())
+	{
+		sf::Event event;
+		while (mainWindow.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				mainWindow.close();
+		}
+		mainWindow.clear();
+		sceneGraph.Update(deltaTime);
+		sceneGraph.Draw(deltaTime, mainWindow);
+		mainWindow.display();
+	}
+}
 
 bool CombustionEngine::CheckStorage(const DWORDLONG diskSpaceNeeded) {
 	// Check for enough free disk space on the current disk.
@@ -47,6 +50,8 @@ bool CombustionEngine::CheckStorage(const DWORDLONG diskSpaceNeeded) {
 	unsigned __int64 const neededClusters =
 		diskSpaceNeeded /
 		(diskfree.sectors_per_cluster * diskfree.bytes_per_sector);
+
+	std::cout << "Clusters needed:"  << neededClusters;
 	if (diskfree.avail_clusters < neededClusters)
 	{
 		// if you get here you donft have enough disk space!
@@ -56,11 +61,12 @@ bool CombustionEngine::CheckStorage(const DWORDLONG diskSpaceNeeded) {
 	return true;
 }
 
-bool CombustionEngine::IsOnlyInstance(LPCTSTR gameTitle)
+bool CombustionEngine::IsOnlyInstance(const char* gameTitle)
 {
-	HANDLE handle = CreateMutex(NULL, TRUE, gameTitle);
+	LPCSTR _gameTitle = const_cast<LPSTR>(gameTitle);
+	HANDLE handle = CreateMutex(NULL, TRUE, _gameTitle);
 	if (GetLastError() != ERROR_SUCCESS) {
-		HWND hWnd = FindWindow(gameTitle, NULL);
+		HWND hWnd = FindWindow(_gameTitle, NULL);
 		if (hWnd) {
 			// An instance of your game is already running.
 			ShowWindow(hWnd, SW_SHOWNORMAL);
@@ -93,7 +99,7 @@ bool CombustionEngine::CheckMemory(const DWORDLONG physicalRAMNeeded, const DWOR
 		printf("CheckMemory Failure : Not enough contiguous memory.");
 		return false;
 	}
-	
+	return true;
 }
 
 DWORD CombustionEngine::ReadCPUSpeed()
@@ -114,15 +120,14 @@ DWORD CombustionEngine::ReadCPUSpeed()
 
 bool CombustionEngine::InitializeGraphics()
 {
-	std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
-	for (std::size_t i = 0; i < modes.size(); ++i)
-	{
-		sf::VideoMode mode = modes[i];
-	}
-	// Create a window with the same pixel depth as the desktop
-	//sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-	//sf::RenderWindow window.create(sf::VideoMode(1024, 768, desktop.bitsPerPixel), "SFML window");
-	return true;
+	Scene *splashScreenScene = new Scene();
+	GameObject *splashScreenObj = new GameObject(true);
+
+	splashScreenObj->SetSprite("../../Assets/SplashScreen.png");
+	splashScreenScene->AddGameObject("splash", splashScreenObj);
+	
+	sceneGraph.AddScene("splash", splashScreenScene);
+	return false;
 }
 
 bool CombustionEngine::InitializeAudio()
@@ -132,11 +137,32 @@ bool CombustionEngine::InitializeAudio()
 
 void CombustionEngine::Initialize(void){
 
-	bool CheckStorage(const DWORDLONG diskSpaceNeeded);
-	bool IsOnlyInstance(LPCTSTR gameTitle);
-	bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded);
+	try
+	{
+		const DWORDLONG diskSpaceNeeded = 0x5F5E100;
+		if (!CheckStorage(diskSpaceNeeded)) {
+			throw std::runtime_error("Not enough disk space available");
+		};
+
+		if (!IsOnlyInstance(engineName)) {
+			throw std::runtime_error("Another instance of the engine is already running");
+		}
+
+		const DWORDLONG physicalRAM = 0x5F5E100;
+		const DWORDLONG virtualRAM = 0x5F5E100;
+		if (!CheckMemory(physicalRAM, virtualRAM)) {
+			throw std::runtime_error("Not enough memory");
+		}
+	}
+	catch (std::runtime_error err) {
+		const char* exception = err.what();
+		std::cout << "Exception thrown:" << exception;
+		exit(1);
+	}
+
 	ReadCPUSpeed();
 	InitializeGraphics();
 	InitializeAudio();
-	//_gameState = CombustionEngine::Initialized;
+	
+	_gameState = CombustionEngine::Initialized;
 }

@@ -1,6 +1,6 @@
 #include "GameObject.h"
-
-
+#include "RendererComponent.h"
+#include <iostream>
 
 void GameObject::SetParent(GameObject & p)
 {
@@ -12,31 +12,106 @@ void GameObject::RemoveParent()
 	this->parent = NULL;
 }
 
-void GameObject::AddChild(GameObject * c)
+void GameObject::AddChild(GameObject* c)
 {
 	children.push_back(c);
 	c->parent = this;
 }
 
-void GameObject::RemoveChild(GameObject  *c)
+void GameObject::RemoveChild(GameObject* c)
 {
-	//Check the entire array of chilren for the child you want to remove
-	/*for (unsigned int i = 0; i < children.size; i++) {
-		if (c == children[i]) {
-			delete children[i];
+	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
+	{
+		if (*it == c)
+		{
+			children.erase(it);
+			break;
 		}
-	}*/
+	}
+}
+
+void GameObject::AddComponent(const char* key, Component* c) {
+	objectComponents.insert(std::pair <const char*, Component*>(key, c));
+}
+
+void GameObject::RemoveComponent(const char* key) {
+	objectComponents.erase(key);
 }
 
 void GameObject::SetSprite(std::string filepath)
 {
-	this->image.loadFromFile(filepath);
-	sf::Texture texture;
-	texture.loadFromImage(image);
-	this->sprite.setTexture(texture);
+	// Only renderable components are drawn
+	RendererComponent* r = static_cast<RendererComponent*>(objectComponents.at("Renderer"));
+	if (r != nullptr)
+	{
+		r->LoadFromFile(filepath);
+	}
+	//this->image.loadFromFile(filepath);
+	//sf::Texture texture;
+	//texture.loadFromImage(image);
+	//this->sprite.setTexture(texture);
 }
 
-void GameObject::Update(float ms)
+void GameObject::Start()
 {
-	
+	for (const auto& mpair : objectComponents)
+	{
+		if (mpair.second != nullptr)
+		{
+			mpair.second->Start();
+		}
+	}
+}
+
+void GameObject::Update(float deltaTime)
+{
+	if (parent != nullptr) 
+	{
+		transform->SetWorldTransform(parent->transform->GetWorldTransform() * transform->GetTransform());
+	}
+	else 
+	{
+		transform->SetWorldTransform(transform->GetTransform());
+	}
+
+	for (int i = 0; i < children.size(); i++)
+	{
+		if (i == children.size()) break;
+		children[i]->Update(deltaTime);
+	}
+
+	for (const auto& mpair : objectComponents)
+	{
+		if (mpair.second != nullptr)
+		{
+			mpair.second->Update(deltaTime);
+		}
+	}
+}
+
+void GameObject::Draw(float deltaTime, sf::RenderWindow& window) {
+
+	for (int i = 0; i < children.size(); i++)
+	{
+		if (i == children.size()) break;
+		children[i]->Draw(deltaTime, window);
+	}
+
+	// Only renderable components are drawn
+	RendererComponent* r = static_cast<RendererComponent*>(objectComponents.at("Renderer"));
+	if (r != nullptr)
+	{
+		r->Draw(window);
+	}
+}
+
+
+GameObject::GameObject(bool bShouldRender) {
+	parent = nullptr;
+	transform = new TransformComponent(0.0f, 0.0f);
+	if (bShouldRender)
+	{
+		RendererComponent* renderer = new RendererComponent();
+		AddComponent("Renderer", renderer);
+	}
 }

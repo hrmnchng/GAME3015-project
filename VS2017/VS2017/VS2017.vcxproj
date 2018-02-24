@@ -125,8 +125,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CombustionEngine.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="RendererComponent.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneGraph.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
@@ -134,6 +138,9 @@
     <ClInclude Include="CombustionEngine.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="RendererComponent.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>

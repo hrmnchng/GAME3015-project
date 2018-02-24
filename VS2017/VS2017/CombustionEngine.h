@@ -1,6 +1,9 @@
-#pragma once
+#ifndef COMBUSTION_ENGINE_H
+#define COMBUSTION_ENGINE_H
+
 #include "SFML\Window.hpp"
 #include "SFML\Graphics.hpp"
+#include "SceneGraph.h"
 #include <windows.h> 
 #include <direct.h>
 #include <tchar.h>
@@ -12,7 +15,7 @@ public:
 	static void Initialize();
 
 	static bool CheckStorage(const DWORDLONG diskSpaceNeeded);
-	static bool IsOnlyInstance(LPCTSTR gameTitle);
+	static bool IsOnlyInstance(const char* gameTitle);
 	static bool CheckMemory(const DWORDLONG physicalRAMNeeded, const DWORDLONG virtualRAMNeeded);
 	static DWORD ReadCPUSpeed();
 
@@ -24,8 +27,14 @@ private:
 		Uninitialized, Initialized, ShowingSplash, Paused,
 		ShowingMenu, Playing, Exiting
 	};
+
 	static GameState _gameState;
+	static const char* engineName;
+	static SceneGraph sceneGraph;
+
 	static bool IsExiting();
-	static void GameLoop();
+	static void GameLoop(sf::RenderWindow&);
 	
 };
+
+#endif

@@ -1,19 +1,30 @@
-#pragma once
-#include "CombustionEngine.h"
-#include <string.h>
+#ifndef TRANSFORM_COMPONENT_H
+#define TRANSFORM_COMPONENT_H
+
 #include "Component.h"
+#include "SFML\Graphics.hpp"
+#include <string.h>
 
 class TransformComponent : Component
 {
 
 public:
+	sf::Transform GetWorldTransform();
+	sf::Transform GetTransform();
+	void SetTransform(sf::Transform);
+	void SetWorldTransform(sf::Transform);
+
+	TransformComponent(float, float);
+
+	void Start() override;
+	void Update(float deltaTime) override;
+
+	void Translate(float x, float y);
+
+private:
 	sf::Transform transform;
 	sf::Transform worldTransform;
 
-	sf::Transform GetWorldTransform();
-	void SetWorldTransform(sf::Transform transform);
-
-private:
-
 };
 
+#endif

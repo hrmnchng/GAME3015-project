@@ -1,15 +1,12 @@
-#pragma once
+#ifndef COMPONENT_H
+#define COMPONENT_H
 
 class Component
 {
 public:
-
-
-private:
-	virtual void start();
-	virtual void awake();
-	virtual void update();
-
+	virtual void Start();
+	virtual void Update(float deltaTime);
 };
 
+#endif
 

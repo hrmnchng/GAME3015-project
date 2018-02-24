@@ -1,6 +1,9 @@
-#pragma once
-#include "CombustionEngine.h"
-#include <string.h>
+#ifndef GAME_OBJECT_H
+#define GAME_OBJECT_H
+
+#include <string>
+#include <map>
+#include <vector>
 #include "TransformComponent.h"
 
 class GameObject {
@@ -8,13 +11,12 @@ class GameObject {
 public:
 	GameObject* parent;
 	std::vector<GameObject*> children;
-
+	std::map<std::string, Component*> objectComponents;
 	
+	TransformComponent* transform;
 
 	sf::Image image;
 	sf::Sprite sprite;
-
-	
 
 	void SetParent(GameObject& p);
 	void RemoveParent();
@@ -24,11 +26,16 @@ public:
 
 	void SetSprite(std::string filepath);
 
-	virtual void Update(float ms);
+	void AddComponent(const char*, Component*);
+	void RemoveComponent(const char*);
 
-	TransformComponent m_transform;
+	virtual void Start();
+	virtual void Update(float );
+	virtual void Draw(float, sf::RenderWindow&);
+
+	GameObject(bool);
 
 private:
 
-
 };
+#endif
