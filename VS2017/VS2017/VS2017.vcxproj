@@ -126,23 +126,31 @@
   <ItemGroup>
     <ClCompile Include="CombustionEngine.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DemoScene.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RendererComponent.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneGraph.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CombustionEngine.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DemoScene.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="RendererComponent.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

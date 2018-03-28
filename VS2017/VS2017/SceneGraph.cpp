@@ -23,20 +23,27 @@ void SceneGraph::DeleteScene(const char* key)
 void SceneGraph::LoadScene(const char* key)
 {
 	// To do: unload current scene's object from memory
-	currentScene = scenes.at(key);
+	//currentScene = scenes.at(key);
+	currentSceneKey = key;
+	scenes[currentSceneKey]->Start();
 }
 
 void SceneGraph::Draw(float deltaTime, sf::RenderWindow& mainWindow)
 {
-	currentScene->Draw(deltaTime, mainWindow);
+	scenes[currentSceneKey]->Draw(deltaTime, mainWindow);
 }
 
 void SceneGraph::Start()
 {
-	currentScene->Start();
+	scenes[currentSceneKey]->Start();
 }
 
 void SceneGraph::Update(float deltaTime)
 {
-	currentScene->Update(deltaTime);
+	scenes[currentSceneKey]->Update(deltaTime);
+}
+
+void SceneGraph::HandleInput(sf::Event event)
+{
+	scenes[currentSceneKey]->HandleInput(event);
 }

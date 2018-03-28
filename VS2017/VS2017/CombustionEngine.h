@@ -4,9 +4,15 @@
 #include "SFML\Window.hpp"
 #include "SFML\Graphics.hpp"
 #include "SceneGraph.h"
+#include "SplashScreen.h"
+#include "DemoScene.h"
+#include "WindowManager.h"
+
 #include <windows.h> 
 #include <direct.h>
 #include <tchar.h>
+#include <iostream>
+#include <memory>
 
 class CombustionEngine
 {
@@ -22,18 +28,19 @@ public:
 	static bool InitializeGraphics();
 	static bool InitializeAudio();
 
-private:
+//private:
 	enum GameState {
 		Uninitialized, Initialized, ShowingSplash, Paused,
 		ShowingMenu, Playing, Exiting
 	};
 
 	static GameState _gameState;
+	static sf::Clock clock;
 	static const char* engineName;
 	static SceneGraph sceneGraph;
 
 	static bool IsExiting();
-	static void GameLoop(sf::RenderWindow&);
+	static void GameLoop();
 	
 };
 

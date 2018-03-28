@@ -39,3 +39,13 @@ void TransformComponent::Translate(float x, float y)
 {
 	transform.translate(x, y);
 }
+
+void TransformComponent::Rotate(float angle)
+{
+	transform.rotate(angle);
+}
+
+void TransformComponent::Scale(float x, float y)
+{
+	transform.scale(x, y);
+}

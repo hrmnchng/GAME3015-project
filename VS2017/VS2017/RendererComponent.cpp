@@ -8,7 +8,12 @@ void RendererComponent::LoadFromFile(std::string path)
 	sprite.setTexture(texture, true);
 }
 
-void RendererComponent::Draw(sf::RenderWindow& window)
+void RendererComponent::Draw(sf::RenderWindow& window, sf::Transform transform)
 {
-	window.draw(sprite);
+	window.draw(sprite, transform);
+}
+
+sf::Sprite RendererComponent::GetSprite()
+{
+	return sprite;
 }

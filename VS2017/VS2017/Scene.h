@@ -2,7 +2,9 @@
 #define SCENE_H
 
 #include "GameObject.h"
+#include "Physics.h"
 #include "SFML/Graphics.hpp"
+#include <memory>
 
 class Scene
 {
@@ -19,11 +21,13 @@ public:
 	void DeleteGameObject(const char*);
 	GameObject* GetGameObject(const char*);
 
-	void Start();
-	void Update(float);
-	void Draw(float, sf::RenderWindow&);
+	virtual void Start();
+	virtual void Update(float);
+	virtual void Draw(float, sf::RenderWindow&);
+	virtual void HandleInput(sf::Event) = 0;
+	virtual void ApplyPhysics(float);
 
-private:
+protected:
 	std::string name;
 	unsigned int sceneIndex;
 	std::map<std::string, GameObject*> gameObjects;

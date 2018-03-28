@@ -1,14 +1,54 @@
 #include "SplashScreen.h"
 #include "SFML\Graphics\Image.hpp"
 
-void SplashScreen::Show(sf::RenderWindow & renderWindow) {
+SplashScreen::SplashScreen()
+{
+	elapsed = 0.0f;
 
-	image.loadFromFile("../../Assets/SplashScreen.png");
-	texture.loadFromImage(image);
-	texture.setSmooth(true);
-	sprite.setTexture(texture, true);
+	// Add splash screen object
+	GameObject *splashScreenObj = new GameObject(true);
+	splashScreenObj->SetSprite("../../Assets/SplashScreen.png");
+	AddGameObject("splash", splashScreenObj);
+}
 
-	renderWindow.draw(sprite);
-	renderWindow.display();
-	sf::Event event;
+SplashScreen::~SplashScreen()
+{
+}
+
+void SplashScreen::Start()
+{
+	this->Scene::Start();
+}
+
+void SplashScreen::Update (float deltaTime)
+{
+	// Call super
+	this->Scene::Update(deltaTime);
+	elapsed += deltaTime * 1000;
+
+	if (elapsed >= 2.0f)
+	{
+		CombustionEngine::sceneGraph.LoadScene("demo");
+		elapsed = 0.0f;
+	}
+}
+
+void SplashScreen::Draw(float deltaTime, sf::RenderWindow& mainWindow)
+{
+	this->Scene::Draw(deltaTime, mainWindow);
+}
+
+void SplashScreen::HandleInput(sf::Event event)
+{
+	switch (event.type)
+	{
+	case sf::Event::KeyPressed:
+	{
+		if (event.key.code == sf::Keyboard::E)
+		{
+			CombustionEngine::sceneGraph.LoadScene("demo");
+			elapsed = 0.0f;
+		}
+	}
+	}
 }

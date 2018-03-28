@@ -5,6 +5,8 @@
 #include <map>
 #include <vector>
 #include "TransformComponent.h"
+#include "RendererComponent.h"
+#include "Rigidbody.h"
 
 class GameObject {
 
@@ -27,7 +29,12 @@ public:
 	void SetSprite(std::string filepath);
 
 	void AddComponent(const char*, Component*);
+	Component* GetComponent(const char*);
 	void RemoveComponent(const char*);
+
+	RendererComponent* GetRenderer();
+
+	Rigidbody * GetRigidbody();
 
 	virtual void Start();
 	virtual void Update(float );

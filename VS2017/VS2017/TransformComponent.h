@@ -20,6 +20,8 @@ public:
 	void Update(float deltaTime) override;
 
 	void Translate(float x, float y);
+	void Rotate(float angle);
+	void Scale(float x, float y);
 
 private:
 	sf::Transform transform;

@@ -34,6 +34,11 @@ void GameObject::AddComponent(const char* key, Component* c) {
 	objectComponents.insert(std::pair <const char*, Component*>(key, c));
 }
 
+Component* GameObject::GetComponent(const char* key)
+{
+	return objectComponents.at(key);
+}
+
 void GameObject::RemoveComponent(const char* key) {
 	objectComponents.erase(key);
 }
@@ -46,10 +51,18 @@ void GameObject::SetSprite(std::string filepath)
 	{
 		r->LoadFromFile(filepath);
 	}
-	//this->image.loadFromFile(filepath);
-	//sf::Texture texture;
-	//texture.loadFromImage(image);
-	//this->sprite.setTexture(texture);
+}
+
+RendererComponent* GameObject::GetRenderer()
+{
+	RendererComponent* renderer = static_cast<RendererComponent*>(objectComponents.at("Renderer"));
+	return renderer;
+}
+
+Rigidbody* GameObject::GetRigidbody()
+{
+	Rigidbody* rb = static_cast<Rigidbody*>(objectComponents.at("Rigidbody"));
+	return rb;
 }
 
 void GameObject::Start()
@@ -101,7 +114,7 @@ void GameObject::Draw(float deltaTime, sf::RenderWindow& window) {
 	RendererComponent* r = static_cast<RendererComponent*>(objectComponents.at("Renderer"));
 	if (r != nullptr)
 	{
-		r->Draw(window);
+		r->Draw(window, transform->GetTransform());
 	}
 }
 

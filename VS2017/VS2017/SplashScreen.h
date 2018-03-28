@@ -2,14 +2,17 @@
 #define SPLASH_SCREEN_H
 #include "CombustionEngine.h"
 
-class SplashScreen {
+class SplashScreen : public Scene {
 public:
-	void Show(sf::RenderWindow& window);
+	float elapsed;
 
-	sf::Image image;
-	sf::Texture texture;
-	sf::Sprite sprite;
+	SplashScreen();
+	~SplashScreen();
 
+	void Start();
+	void Update(float) override;
+	void Draw(float, sf::RenderWindow&);
+	void HandleInput(sf::Event) override;
 };
 
 #endif

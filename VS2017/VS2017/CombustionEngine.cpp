@@ -1,5 +1,4 @@
 #include "CombustionEngine.h"
-#include "SplashScreen.h"
 #include <iostream>
 
 #if defined(_DEBUG)
@@ -9,35 +8,65 @@
 const char* CombustionEngine::engineName = "COMBUSTION";
 CombustionEngine::GameState CombustionEngine::_gameState = CombustionEngine::Uninitialized;
 SceneGraph CombustionEngine::sceneGraph;
+sf::Clock CombustionEngine::clock;
 
 void CombustionEngine::Start(void)
 {
 	_gameState = CombustionEngine::Playing;
 
-	sf::RenderWindow mainWindow({ 1024, 769 }, "JAILBREAK BOB GOES TO SPACE");
-	mainWindow.setFramerateLimit(60);
-
-	GameLoop(mainWindow);
+	clock.restart();
+	GameLoop();
 }
 
-void CombustionEngine::GameLoop(sf::RenderWindow& mainWindow)
+void CombustionEngine::GameLoop()
 {
 	sceneGraph.LoadScene("splash");
 	sceneGraph.Start();
 
-	float deltaTime = 0.0f; // Calculate time between frames
+	sf::RenderWindow& mainWindow = WindowManager::rm().getWindow();
+
+	bool handleInput = true;
 
 	while (mainWindow.isOpen())
 	{
 		sf::Event event;
+		float elapsed = clock.restart().asSeconds() / 1000.0f;
 		while (mainWindow.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			switch (event.type)
+			{
+			case sf::Event::GainedFocus:
+				handleInput = true;
+				break;
+
+			case sf::Event::LostFocus:
+				handleInput = false;
+				break;
+
+			case sf::Event::KeyPressed:
+			case sf::Event::KeyReleased:
+			case sf::Event::MouseButtonPressed:
+			case sf::Event::MouseButtonReleased:
+			case sf::Event::MouseMoved:
+			{
+				if (handleInput)
+				{
+					sceneGraph.HandleInput(event);
+				}
+			}
+			break;
+
+			case sf::Event::Closed:
 				mainWindow.close();
+				break;
+
+			default:
+				break;
+			}
 		}
 		mainWindow.clear();
-		sceneGraph.Update(deltaTime);
-		sceneGraph.Draw(deltaTime, mainWindow);
+		sceneGraph.Update(elapsed);
+		sceneGraph.Draw(elapsed, mainWindow);
 		mainWindow.display();
 	}
 }
@@ -120,14 +149,10 @@ DWORD CombustionEngine::ReadCPUSpeed()
 
 bool CombustionEngine::InitializeGraphics()
 {
-	Scene *splashScreenScene = new Scene();
-	GameObject *splashScreenObj = new GameObject(true);
-
-	splashScreenObj->SetSprite("../../Assets/SplashScreen.png");
-	splashScreenScene->AddGameObject("splash", splashScreenObj);
-	
-	sceneGraph.AddScene("splash", splashScreenScene);
-	return false;
+	//WindowManager 
+	sceneGraph.AddScene("splash", new SplashScreen());
+	sceneGraph.AddScene("demo", new DemoScene());
+	return true;
 }
 
 bool CombustionEngine::InitializeAudio()

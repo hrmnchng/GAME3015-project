@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include <iostream>
 
 Scene::Scene()
 {
@@ -56,4 +57,9 @@ void Scene::Draw(float deltaTime, sf::RenderWindow& window)
 			mpair.second->Draw(deltaTime, window);
 		}
 	}
+}
+
+void Scene::ApplyPhysics(float deltaTime)
+{
+	Physics::CalculatePositions(gameObjects);
 }
