@@ -62,4 +62,5 @@ void Scene::Draw(float deltaTime, sf::RenderWindow& window)
 void Scene::ApplyPhysics(float deltaTime)
 {
 	Physics::CalculatePositions(gameObjects);
+	Physics::CalculateCollisions(gameObjects);
 }

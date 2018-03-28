@@ -38,11 +38,19 @@ void DemoScene::Start()
 	);
 	
 	player->setPosition(xpos, ypos);
-	
+
+	GameObject* asteroid = new GameObject();
+	asteroid->SetSprite("../../Assets/Asteroid.png");
+	asteroid->setPosition(0.0f, 0.0f);
+	asteroid->setScale(1.4f, 1.4f);
+
+	BoxCollider* asteroidCollider = new BoxCollider(asteroid->sprite.getGlobalBounds());
+	asteroid->AddComponent("Collider", asteroidCollider);
 
 	// Add objects to the scene
 	AddGameObject("background", spaceBackground);
 	AddGameObject("player", player);
+	AddGameObject("spaceball", asteroid);
 }
 
 void DemoScene::Update(float deltaTime)
@@ -65,6 +73,7 @@ void DemoScene::HandleInput(sf::Event event)
 		sf::Vector2f mousePosition(event.mouseMove.x, event.mouseMove.y);
 		sf::Vector2f dir = mousePosition - player->getPosition();
 		dir = dir / sqrtf(pow(dir.x, 2) + pow(dir.y, 2));
+		dir *= player->speedMult;
 		player->GetRigidbody()->SetVelocity(dir.x, dir.y);
 	}
 	break;
@@ -81,9 +90,19 @@ void DemoScene::HandleInput(sf::Event event)
 		}
 		else if (event.key.code == sf::Keyboard::Space)
 		{
-			player->rotate(5.0f);
+			player->speedMult = 5.0f;
 		}
-
 	}
+	break;
+
+	case sf::Event::KeyReleased:
+	{
+		if (event.key.code == sf::Keyboard::Space)
+		{
+			player->speedMult = 1.0f;
+		}
+	}
+	default:
+		break;
 	}
 }

@@ -60,14 +60,9 @@ void GameObject::SetSprite(std::string filepath)
 	texture.loadFromImage(image);
 	texture.setSmooth(true);
 	sprite.setTexture(texture, true);
-}
 
-/*RendererComponent* GameObject::GetRenderer()
-{
-	RendererComponent* renderer = static_cast<RendererComponent*>(objectComponents.at("Renderer"));
-	return renderer;
+	std::cout << "Loaded sprite from file " << filepath << std::endl;
 }
-*/
 
 Rigidbody* GameObject::GetRigidbody()
 {
@@ -77,6 +72,17 @@ Rigidbody* GameObject::GetRigidbody()
 	else {
 		Rigidbody* rb = static_cast<Rigidbody*>(objectComponents.at("Rigidbody"));
 		return rb;
+	}
+}
+
+BoxCollider* GameObject::GetCollider()
+{
+	if (objectComponents.find("Collider") == objectComponents.end()) {
+		return nullptr;
+	}
+	else {
+		BoxCollider* collider = static_cast<BoxCollider*>(objectComponents.at("Collider"));
+		return collider;
 	}
 }
 

@@ -7,6 +7,7 @@
 #include "TransformComponent.h"
 #include "RendererComponent.h"
 #include "Rigidbody.h"
+#include "BoxCollider.h"
 
 class GameObject: public sf::Transformable {
 
@@ -33,6 +34,7 @@ public:
 
 	//RendererComponent* GetRenderer();
 	Rigidbody* GetRigidbody();
+	BoxCollider* GetCollider();
 
 	virtual void Start();
 	virtual void Update(float);

@@ -14,8 +14,10 @@ public:
 	float getHealth() { return this->health; }
 	void setHealth(float value) { this->health = value; }
 
+	float speedMult;
 private:
 	float health;
+	
 
 };
 #endif
