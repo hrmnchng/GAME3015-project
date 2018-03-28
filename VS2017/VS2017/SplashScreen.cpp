@@ -6,8 +6,9 @@ SplashScreen::SplashScreen()
 	elapsed = 0.0f;
 
 	// Add splash screen object
-	GameObject *splashScreenObj = new GameObject(true);
+	GameObject *splashScreenObj = new GameObject();
 	splashScreenObj->SetSprite("../../Assets/SplashScreen.png");
+	splashScreenObj->setPosition(0.0f, 0.0f);
 	AddGameObject("splash", splashScreenObj);
 }
 

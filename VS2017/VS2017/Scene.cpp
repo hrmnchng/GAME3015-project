@@ -54,7 +54,7 @@ void Scene::Draw(float deltaTime, sf::RenderWindow& window)
 	{
 		if (mpair.second != nullptr)
 		{
-			mpair.second->Draw(deltaTime, window);
+			mpair.second->Draw(window, mpair.second->getTransform());
 		}
 	}
 }

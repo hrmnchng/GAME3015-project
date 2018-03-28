@@ -5,7 +5,7 @@
 #include "SFML\Graphics.hpp"
 #include <string.h>
 
-class TransformComponent : Component
+class TransformComponent : public Component
 {
 
 public:

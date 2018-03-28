@@ -65,6 +65,7 @@ void CombustionEngine::GameLoop()
 			}
 		}
 		mainWindow.clear();
+		sceneGraph.CalculatePhysics(elapsed);
 		sceneGraph.Update(elapsed);
 		sceneGraph.Draw(elapsed, mainWindow);
 		mainWindow.display();

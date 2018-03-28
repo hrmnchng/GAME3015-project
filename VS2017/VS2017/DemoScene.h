@@ -14,6 +14,9 @@ public:
 	void Update(float) override;
 	void Draw(float, sf::RenderWindow&) override;
 	void HandleInput(sf::Event) override;
+
+private:
+	Player* player;
 };
 
 #endif

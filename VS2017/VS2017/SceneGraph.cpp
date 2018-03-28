@@ -38,6 +38,11 @@ void SceneGraph::Start()
 	scenes[currentSceneKey]->Start();
 }
 
+void SceneGraph::CalculatePhysics(float deltaTime)
+{
+	scenes[currentSceneKey]->ApplyPhysics(deltaTime);
+}
+
 void SceneGraph::Update(float deltaTime)
 {
 	scenes[currentSceneKey]->Update(deltaTime);

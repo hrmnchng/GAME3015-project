@@ -1,6 +1,8 @@
 #include "Rigidbody.h"
+#include <iostream>
+
 #define GRAVITY_X 0.0
-#define GRAVITY_Y -9.8
+#define GRAVITY_Y 9.8
 
 Rigidbody::Rigidbody()
 {
@@ -18,6 +20,8 @@ Rigidbody::~Rigidbody()
 
 void Rigidbody::Update(float deltaTime)
 {
+	deltaTime *= 1000.0f;
+
 	if (fabs(accel.x + accel.y) > 0.0f)
 	{
 		velocity += accel * deltaTime;
@@ -28,4 +32,6 @@ void Rigidbody::Update(float deltaTime)
 		accel.x += GRAVITY_X * deltaTime;
 		accel.y += GRAVITY_Y * deltaTime;
 	}
+
+	//std::cout << "deltaTime: " << deltaTime << std::endl;
 }

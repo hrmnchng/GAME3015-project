@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace::std;
 
-Player::Player(bool render) : GameObject(render)
+Player::Player()
 {
 	this->health = 100.0f;
 	AddComponent("Rigidbody", new Rigidbody());

@@ -8,17 +8,16 @@
 #include "RendererComponent.h"
 #include "Rigidbody.h"
 
-class GameObject {
+class GameObject: public sf::Transformable {
 
 public:
 	GameObject* parent;
+
+	sf::Transform transform;
+	sf::Sprite sprite;
+
 	std::vector<GameObject*> children;
 	std::map<std::string, Component*> objectComponents;
-	
-	TransformComponent* transform;
-
-	sf::Image image;
-	sf::Sprite sprite;
 
 	void SetParent(GameObject& p);
 	void RemoveParent();
@@ -32,17 +31,18 @@ public:
 	Component* GetComponent(const char*);
 	void RemoveComponent(const char*);
 
-	RendererComponent* GetRenderer();
-
-	Rigidbody * GetRigidbody();
+	//RendererComponent* GetRenderer();
+	Rigidbody* GetRigidbody();
 
 	virtual void Start();
-	virtual void Update(float );
-	virtual void Draw(float, sf::RenderWindow&);
+	virtual void Update(float);
+	virtual void Draw(sf::RenderTarget&, const sf::Transform&) const;
 
-	GameObject(bool);
+	GameObject();
+	~GameObject();
 
 private:
-
+	sf::Image image;
+	sf::Texture texture;
 };
 #endif

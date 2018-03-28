@@ -6,7 +6,7 @@
 class Player : public GameObject {
 
 public:
-	Player(bool);
+	Player();
 	~Player();
 
 	void Update(float);

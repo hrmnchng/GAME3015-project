@@ -2,7 +2,17 @@
 #include "RendererComponent.h"
 #include <iostream>
 
-void GameObject::SetParent(GameObject & p)
+
+GameObject::GameObject()
+{
+
+}
+
+GameObject::~GameObject()
+{
+
+}
+void GameObject::SetParent(GameObject& p)
 {
 	this->parent = &p;
 }
@@ -15,7 +25,7 @@ void GameObject::RemoveParent()
 void GameObject::AddChild(GameObject* c)
 {
 	children.push_back(c);
-	c->parent = this;
+	c->SetParent(*this);
 }
 
 void GameObject::RemoveChild(GameObject* c)
@@ -24,6 +34,7 @@ void GameObject::RemoveChild(GameObject* c)
 	{
 		if (*it == c)
 		{
+			c->RemoveParent();
 			children.erase(it);
 			break;
 		}
@@ -45,24 +56,28 @@ void GameObject::RemoveComponent(const char* key) {
 
 void GameObject::SetSprite(std::string filepath)
 {
-	// Only renderable components are drawn
-	RendererComponent* r = static_cast<RendererComponent*>(objectComponents.at("Renderer"));
-	if (r != nullptr)
-	{
-		r->LoadFromFile(filepath);
-	}
+	image.loadFromFile(filepath);
+	texture.loadFromImage(image);
+	texture.setSmooth(true);
+	sprite.setTexture(texture, true);
 }
 
-RendererComponent* GameObject::GetRenderer()
+/*RendererComponent* GameObject::GetRenderer()
 {
 	RendererComponent* renderer = static_cast<RendererComponent*>(objectComponents.at("Renderer"));
 	return renderer;
 }
+*/
 
 Rigidbody* GameObject::GetRigidbody()
 {
-	Rigidbody* rb = static_cast<Rigidbody*>(objectComponents.at("Rigidbody"));
-	return rb;
+	if (objectComponents.find("Rigidbody") == objectComponents.end()) {
+		return nullptr;
+	}
+	else {
+		Rigidbody* rb = static_cast<Rigidbody*>(objectComponents.at("Rigidbody"));
+		return rb;
+	}
 }
 
 void GameObject::Start()
@@ -78,15 +93,6 @@ void GameObject::Start()
 
 void GameObject::Update(float deltaTime)
 {
-	if (parent != nullptr) 
-	{
-		transform->SetWorldTransform(parent->transform->GetWorldTransform() * transform->GetTransform());
-	}
-	else 
-	{
-		transform->SetWorldTransform(transform->GetTransform());
-	}
-
 	for (int i = 0; i < children.size(); i++)
 	{
 		if (i == children.size()) break;
@@ -102,29 +108,16 @@ void GameObject::Update(float deltaTime)
 	}
 }
 
-void GameObject::Draw(float deltaTime, sf::RenderWindow& window) {
+void GameObject::Draw(sf::RenderTarget& target, const sf::Transform& parentTransform) const {
 
-	for (int i = 0; i < children.size(); i++)
+	sf::Transform combinedTransform = parentTransform * transform;
+	target.draw(sprite, combinedTransform);
+
+	for (std::size_t i = 0; i < children.size(); ++i)
 	{
-		if (i == children.size()) break;
-		children[i]->Draw(deltaTime, window);
-	}
-
-	// Only renderable components are drawn
-	RendererComponent* r = static_cast<RendererComponent*>(objectComponents.at("Renderer"));
-	if (r != nullptr)
-	{
-		r->Draw(window, transform->GetTransform());
-	}
-}
-
-
-GameObject::GameObject(bool bShouldRender) {
-	parent = nullptr;
-	transform = new TransformComponent(0.0f, 0.0f);
-	if (bShouldRender)
-	{
-		RendererComponent* renderer = new RendererComponent();
-		AddComponent("Renderer", renderer);
+		children[i]->Draw(target, transform);
+		//children[i]->Draw(target, combinedTransform);
+		//std::cout << "Drawing children " << children[i]->getPosition().x
+		//	<< " " << children[i]->getPosition().y << std::endl;
 	}
 }

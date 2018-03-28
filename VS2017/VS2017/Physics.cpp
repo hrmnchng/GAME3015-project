@@ -1,14 +1,5 @@
 #include "Physics.h"
-
-Physics::Physics()
-{
-
-}
-
-Physics::~Physics()
-{
-
-}
+#include <iostream>
 
 void Physics::CalculatePositions(std::map<std::string, GameObject*> sceneObjects)
 {
@@ -19,10 +10,7 @@ void Physics::CalculatePositions(std::map<std::string, GameObject*> sceneObjects
 			Rigidbody* rb = mpair.second->GetRigidbody();
 			if (rb != nullptr)
 			{
-				mpair.second->transform->Translate(
-					rb->GetVelocity().x,
-					rb->GetVelocity().y
-				);
+				mpair.second->move(rb->GetVelocity());
 			}
 		}
 	}

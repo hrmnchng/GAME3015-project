@@ -16,6 +16,7 @@ public:
 	void LoadScene(const char*);
 
 	void Start();
+	void CalculatePhysics(float deltaTime);
 	void HandleInput(sf::Event);
 	void Update(float deltaTime);
 	void Draw(float deltaTime, sf::RenderWindow&);
