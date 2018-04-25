@@ -7,7 +7,10 @@
 
 DemoScene::DemoScene()
 {
-	elapsed = 0.0f;
+	//elapsed = 0.0f;
+	//score = 0;
+	//collisions = 0;
+	//maxCollisions = 0;
 }
 
 DemoScene::~DemoScene()
@@ -21,8 +24,11 @@ void DemoScene::Start()
 	srand(time(NULL));
 
 	this->Scene::Start();
+	gameObjects.clear();
+
 	score = 0;
-	lives = 0;
+	collisions = 0;
+	maxCollisions = 10;
 
 	sf::RenderWindow& mainWindow = WindowManager::rm().getWindow();
 
@@ -63,7 +69,7 @@ void DemoScene::Start()
 	// Create UI Label
 	std::string scoreText = "Score: " + std::to_string(score);
 	UILabel* scoreLabel = new UILabel(scoreText.c_str());
-	std::string livesText = "Collisions: " + std::to_string(lives);
+	std::string livesText = "Collisions: " + std::to_string(collisions) + "/" + std::to_string(maxCollisions);
 	UILabel* livesLabel = new UILabel(livesText.c_str());
 	livesLabel->label.setPosition(45.0f, 45.0f);
 
@@ -131,10 +137,15 @@ void DemoScene::RespawnPlayer()
 	emitter->music.stop();
 	emitter->music.play();
 
-	lives = lives + 1;
+	collisions = collisions + 1;
 
 	UILabel* livesLabel = static_cast<UILabel*>(GetGameObject("livesLabel"));
-	std::string livesText = "Collisions: " + std::to_string(lives);
+	std::string livesText = "Collisions: " + std::to_string(collisions) + "/" + std::to_string(maxCollisions);
 	livesLabel->label.setPosition(45.0f, 45.0f);
 	livesLabel->label.setString(livesText);
+
+	if (collisions > maxCollisions)
+	{
+		CombustionEngine::sceneGraph.LoadScene("gameOver");
+	}
 }

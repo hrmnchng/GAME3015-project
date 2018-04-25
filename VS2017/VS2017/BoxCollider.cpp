@@ -43,5 +43,5 @@ void BoxCollider::UpdateBoundingBox(sf::Vector2f position, float width, float he
 
 void BoxCollider::Draw(sf::RenderTarget& target)
 {
-	//target.draw(boundingBox);
+	target.draw(boundingBox);
 }

@@ -28,7 +28,8 @@ public:
 private:
 	Player* player;
 	int score;
-	int lives;
+	int collisions;
+	int maxCollisions;
 	float spawnInterval;
 	int spawnQuantity;
 };
