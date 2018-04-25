@@ -162,6 +162,7 @@ bool CombustionEngine::InitializeGraphics()
 
 	sceneGraph.AddScene("splash", new SplashScreen());
 	sceneGraph.AddScene("demo", new DemoScene());
+	sceneGraph.AddScene("gameOver", new GameOverScene());
 	return true;
 }
 

@@ -92,6 +92,18 @@ void DemoScene::Draw(float deltaTime, sf::RenderWindow& mainWindow)
 void DemoScene::HandleInput(sf::Event event)
 {
 	this->Scene::HandleInput(event);
+
+	switch (event.type)
+	{
+	case sf::Event::KeyPressed:
+	{
+		if (event.key.code == sf::Keyboard::Escape)
+		{
+			CombustionEngine::sceneGraph.LoadScene("gameOver");
+			elapsed = 0.0f;
+		}
+	}
+	}
 }
 
 void DemoScene::OnCollision(GameObject& first, GameObject& second)

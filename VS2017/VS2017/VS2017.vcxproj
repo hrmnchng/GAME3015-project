@@ -141,6 +141,7 @@
     <ClCompile Include="CombustionEngine.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DemoScene.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="InfiniteBackground.cpp" />
     <ClCompile Include="LaserShot.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="DemoScene.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="InfiniteBackground.h" />
     <ClInclude Include="LaserShot.h" />
     <ClInclude Include="Physics.h" />

@@ -4,7 +4,6 @@
 
 #include "GameObject.h"
 #include "SFML/Graphics.hpp"
-#include <memory>
 
 class Scene
 {

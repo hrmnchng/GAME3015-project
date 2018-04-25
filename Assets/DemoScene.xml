@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene>
+	<map_name>demo</map_name>
+	<GameObjects>
+		<InifiniteBackground>
+		</InfiniteBackground>
+
+		<Player>
+			<sprite_name></sprite_name>
+			<Components>
+				<Rigidbody>
+					<use_gravity>false</use_gravity>
+					<velocity_x>0.0</velocity_x>
+					<velocity_x>0.0</velocity_x>
+				</Rigidbody>
+				<AudioEmitter>
+					<file>lasershot.ogg</file>
+					<loop>false</loop>
+					<sfx>true</sfx>
+					<autoplay>false</autoplay>
+				</AudioEmitter>
+			</Components>
+		</Player>
+	</GameObjects>
+</Scene>

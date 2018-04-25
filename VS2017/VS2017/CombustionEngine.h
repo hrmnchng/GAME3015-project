@@ -7,6 +7,7 @@
 #include "SceneGraph.h"
 #include "SplashScreen.h"
 #include "DemoScene.h"
+#include "GameOverScene.h"
 #include "WindowManager.h"
 
 #include <windows.h> 
