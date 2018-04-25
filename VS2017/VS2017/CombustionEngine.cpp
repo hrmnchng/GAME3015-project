@@ -150,7 +150,14 @@ DWORD CombustionEngine::ReadCPUSpeed()
 
 bool CombustionEngine::InitializeGraphics()
 {
-	//WindowManager 
+	// Initialize fonts
+	sf::Font fontPricedown;
+	if (fontPricedown.loadFromFile("../../Assets/pricedown.ttf"))
+	{
+		CombustionEngine::CENGINE().m_engineFonts.insert(std::pair<const char*, sf::Font>("pricedown", fontPricedown));
+	}
+	
+
 	sceneGraph.AddScene("splash", new SplashScreen());
 	sceneGraph.AddScene("demo", new DemoScene());
 	return true;
@@ -191,4 +198,10 @@ void CombustionEngine::Initialize(void){
 	InitializeAudio();
 	
 	_gameState = CombustionEngine::Initialized;
+}
+
+CombustionEngine& CombustionEngine::CENGINE()
+{
+	static CombustionEngine CENGINE;
+	return CENGINE;
 }

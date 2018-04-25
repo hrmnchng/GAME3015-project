@@ -3,6 +3,7 @@
 
 #include "SFML\Window.hpp"
 #include "SFML\Graphics.hpp"
+#include "SFML\Audio.hpp"
 #include "SceneGraph.h"
 #include "SplashScreen.h"
 #include "DemoScene.h"
@@ -19,6 +20,7 @@ class CombustionEngine
 public:
 	static void Start();	
 	static void Initialize();
+	static CombustionEngine & CENGINE();
 
 	static bool CheckStorage(const DWORDLONG diskSpaceNeeded);
 	static bool IsOnlyInstance(const char* gameTitle);
@@ -27,6 +29,8 @@ public:
 
 	static bool InitializeGraphics();
 	static bool InitializeAudio();
+
+	std::map<const char*, sf::Font> m_engineFonts;
 
 //private:
 	enum GameState {

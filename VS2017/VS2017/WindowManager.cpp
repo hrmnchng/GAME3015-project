@@ -2,7 +2,7 @@
 
 WindowManager::WindowManager()
 {
-	window.create(sf::VideoMode(1024, 769), "JAILBREAK BOB GOES TO SPACE");
+	window.create(sf::VideoMode(1400, 1024), "JAILBREAK BOB GOES TO SPACE");
 	window.setFramerateLimit(60);
 }
 

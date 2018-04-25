@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "SFML\Graphics.hpp"
 #include <string>
 
 class RendererComponent: public Component

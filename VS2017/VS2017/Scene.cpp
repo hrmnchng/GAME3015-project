@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include <iostream>
+#include <vector>
 
 Scene::Scene()
 {
@@ -54,13 +55,48 @@ void Scene::Draw(float deltaTime, sf::RenderWindow& window)
 	{
 		if (mpair.second != nullptr)
 		{
-			mpair.second->Draw(window, mpair.second->getTransform());
+			mpair.second->Draw(window);
 		}
+	}
+}
+
+void Scene::HandleInput(sf::Event event)
+{
+	for (const auto& mpair : gameObjects)
+	{
+		if (mpair.second != nullptr)
+		{
+			mpair.second->HandleInput(event);
+		}
+	}
+
+	switch (event.type)
+	{
+	case sf::Event::MouseMoved:
+		break;
+
+	case sf::Event::KeyPressed:
+		break;
+
+	case sf::Event::KeyReleased:
+		break;
+
+	default:
+		break;
 	}
 }
 
 void Scene::ApplyPhysics(float deltaTime)
 {
-	Physics::CalculatePositions(gameObjects);
+	std::vector<GameObject*> sceneObjectsVector;
+	for (const auto& mpair : gameObjects)
+	{
+		if (mpair.second != nullptr)
+		{
+			sceneObjectsVector.push_back(mpair.second);
+		}
+	}
+
+	Physics::CalculatePositions(sceneObjectsVector);
 	Physics::CalculateCollisions(gameObjects);
 }

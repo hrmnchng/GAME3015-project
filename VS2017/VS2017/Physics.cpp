@@ -1,39 +1,33 @@
 #include "Physics.h"
 #include <iostream>
 
-void Physics::CalculatePositions(std::map<std::string, GameObject*> sceneObjects)
+void Physics::CalculatePositions(std::vector<GameObject*> sceneObjects)
 {
-	for (const auto& mpair : sceneObjects)
+	for (std::size_t i = 0; i < sceneObjects.size(); ++i)
 	{
-		if (mpair.second != nullptr)
+		Rigidbody* rb = sceneObjects[i]->GetRigidbody();
+		if (rb != nullptr)
 		{
-			Rigidbody* rb = mpair.second->GetRigidbody();
-			if (rb != nullptr)
-			{
-				mpair.second->move(rb->GetVelocity());
-			}
+			sceneObjects[i]->move(rb->GetVelocity());
 		}
+
+		BoxCollider* collider = sceneObjects[i]->GetCollider();
+		if (collider != nullptr)
+		{
+			collider->UpdateBoundingBox(
+				sceneObjects[i]->getPosition(),
+				sceneObjects[i]->sprite.getGlobalBounds().width * sceneObjects[i]->getScale().x,
+				sceneObjects[i]->sprite.getGlobalBounds().height * sceneObjects[i]->getScale().y,
+				sceneObjects[i]->getRotation()
+			);
+		}
+
+		CalculatePositions(sceneObjects[i]->children);
 	}
 }
 
 void Physics::CalculateCollisions(std::map<std::string, GameObject*> sceneObjects)
 {
-	for (const auto& mpair : sceneObjects)
-	{
-		if (mpair.second != nullptr)
-		{
-			BoxCollider* collider = mpair.second->GetCollider();
-			if (collider != nullptr)
-			{
-				collider->UpdateBoundingBox(
-					mpair.second->getPosition(),
-					mpair.second->sprite.getGlobalBounds().width,
-					mpair.second->sprite.getGlobalBounds().height
-				);
-			}
-		}
-	}
-
 	for (const auto& mpair : sceneObjects)
 	{
 		if (mpair.second != nullptr)
@@ -48,10 +42,9 @@ void Physics::CalculateCollisions(std::map<std::string, GameObject*> sceneObject
 				BoxCollider* _collider = _mpair.second->GetCollider();
 				if (_collider == nullptr) continue;
 	
-				if (collider->boundingBox.intersects(_collider->boundingBox))
+				if (collider->boundingBox.getGlobalBounds().intersects(_collider->boundingBox.getGlobalBounds()))
 				{
-					// Colliding!
-					mpair.second->setScale(0.0f, 0.0f);
+					mpair.second->OnCollision(*_mpair.second);
 				}
 			}
 		}

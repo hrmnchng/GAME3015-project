@@ -47,7 +47,14 @@ void GameObject::AddComponent(const char* key, Component* c) {
 
 Component* GameObject::GetComponent(const char* key)
 {
-	return objectComponents.at(key);
+	if (objectComponents.find(key) == objectComponents.end())
+	{
+		return nullptr;
+	}
+	else
+	{
+		return objectComponents.at(key);
+	}
 }
 
 void GameObject::RemoveComponent(const char* key) {
@@ -60,6 +67,9 @@ void GameObject::SetSprite(std::string filepath)
 	texture.loadFromImage(image);
 	texture.setSmooth(true);
 	sprite.setTexture(texture, true);
+
+	// Move origin point
+	this->setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
 
 	std::cout << "Loaded sprite from file " << filepath << std::endl;
 }
@@ -99,12 +109,6 @@ void GameObject::Start()
 
 void GameObject::Update(float deltaTime)
 {
-	for (int i = 0; i < children.size(); i++)
-	{
-		if (i == children.size()) break;
-		children[i]->Update(deltaTime);
-	}
-
 	for (const auto& mpair : objectComponents)
 	{
 		if (mpair.second != nullptr)
@@ -112,18 +116,53 @@ void GameObject::Update(float deltaTime)
 			mpair.second->Update(deltaTime);
 		}
 	}
+
+	for (int i = 0; i < children.size(); i++)
+	{
+		if (i == children.size()) break;
+		children[i]->Update(deltaTime);
+	}
+
 }
 
-void GameObject::Draw(sf::RenderTarget& target, const sf::Transform& parentTransform) const {
+void GameObject::Draw(sf::RenderTarget& target) const {
 
-	sf::Transform combinedTransform = parentTransform * transform;
-	target.draw(sprite, combinedTransform);
+	//sf::Transform combinedTransform = parentTransform * transform;
+	target.draw(sprite, this->getTransform());
+
+	for (const auto& mpair : objectComponents)
+	{
+		if (mpair.second != nullptr)
+		{
+			mpair.second->Draw(target);
+		}
+	}
 
 	for (std::size_t i = 0; i < children.size(); ++i)
 	{
-		children[i]->Draw(target, transform);
-		//children[i]->Draw(target, combinedTransform);
-		//std::cout << "Drawing children " << children[i]->getPosition().x
-		//	<< " " << children[i]->getPosition().y << std::endl;
+		children[i]->Draw(target);
 	}
+}
+
+void GameObject::HandleInput(sf::Event event)
+{
+	switch (event.type)
+	{
+	case sf::Event::MouseMoved:
+		break;
+
+	case sf::Event::KeyPressed:
+		break;
+
+	case sf::Event::KeyReleased:
+		break;
+
+	default:
+		break;
+	}
+}
+
+void GameObject::OnCollision(GameObject& other)
+{
+
 }

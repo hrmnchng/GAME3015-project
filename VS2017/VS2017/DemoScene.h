@@ -2,6 +2,8 @@
 #define DEMO_SCENE_H
 #include "CombustionEngine.h"
 #include "Player.h"
+#include "InfiniteBackground.h"
+#include "UILabel.h"
 
 class DemoScene : public Scene {
 public:

@@ -4,8 +4,8 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "TransformComponent.h"
 #include "RendererComponent.h"
+#include "AudioEmitterComponent.h"
 #include "Rigidbody.h"
 #include "BoxCollider.h"
 
@@ -14,7 +14,6 @@ class GameObject: public sf::Transformable {
 public:
 	GameObject* parent;
 
-	sf::Transform transform;
 	sf::Sprite sprite;
 
 	std::vector<GameObject*> children;
@@ -32,13 +31,15 @@ public:
 	Component* GetComponent(const char*);
 	void RemoveComponent(const char*);
 
-	//RendererComponent* GetRenderer();
+	// Helpers
 	Rigidbody* GetRigidbody();
 	BoxCollider* GetCollider();
 
 	virtual void Start();
 	virtual void Update(float);
-	virtual void Draw(sf::RenderTarget&, const sf::Transform&) const;
+	virtual void Draw(sf::RenderTarget&) const;
+	virtual void HandleInput(sf::Event event);
+	virtual void OnCollision(GameObject& other);
 
 	GameObject();
 	~GameObject();

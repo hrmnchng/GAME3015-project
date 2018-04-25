@@ -24,7 +24,7 @@ public:
 	virtual void Start();
 	virtual void Update(float);
 	virtual void Draw(float, sf::RenderWindow&);
-	virtual void HandleInput(sf::Event) = 0;
+	virtual void HandleInput(sf::Event);
 	virtual void ApplyPhysics(float);
 
 protected:

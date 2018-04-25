@@ -17,6 +17,8 @@ public:
 	void SetMass(float value) { this->mass = value; }
 	sf::Vector2f GetVelocity() { return this->velocity; }
 	void SetVelocity(float x, float y) { this->velocity.x = x; this->velocity.y = y; }
+	void SetVelocity(sf::Vector2f velocity) { this->velocity = velocity; }
+	void NormalizeVelocity() { this->velocity = velocity / sqrtf(pow(velocity.x, 2) + pow(velocity.y, 2)); }
 	sf::Vector2f GetAccel() { return this->accel; }
 	void SetAccel(float x, float y) { this->accel.x = x; this->accel.y = y; }
 

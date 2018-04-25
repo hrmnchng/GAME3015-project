@@ -11,3 +11,9 @@ void Component::Update(float deltaTime)
 {
 	return;
 }
+
+void Component::Draw(sf::RenderTarget &)
+{
+	return;
+}
+

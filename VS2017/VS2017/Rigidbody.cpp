@@ -32,6 +32,4 @@ void Rigidbody::Update(float deltaTime)
 		accel.x += GRAVITY_X * deltaTime;
 		accel.y += GRAVITY_Y * deltaTime;
 	}
-
-	//std::cout << "deltaTime: " << deltaTime << std::endl;
 }
