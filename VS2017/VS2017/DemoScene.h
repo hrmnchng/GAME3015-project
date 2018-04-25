@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "InfiniteBackground.h"
 #include "UILabel.h"
+#include "Asteroid.h"
 
 class DemoScene : public Scene {
 public:
@@ -16,9 +17,20 @@ public:
 	void Update(float) override;
 	void Draw(float, sf::RenderWindow&) override;
 	void HandleInput(sf::Event) override;
+	void OnCollision(GameObject & first, GameObject & second);
+
+	int GetScore();
+	void SetScore(int value);
+	void RespawnPlayer();
+
+	sf::Texture asteroidTexture;
 
 private:
 	Player* player;
+	int score;
+	int lives;
+	float spawnInterval;
+	int spawnQuantity;
 };
 
 #endif

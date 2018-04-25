@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Physics.h"
 #include <iostream>
 #include <vector>
 
@@ -15,6 +16,7 @@ Scene::~Scene()
 void Scene::AddGameObject(const char* key, GameObject* g)
 {
 	gameObjects.insert(std::pair<const char*, GameObject*>(key, g));
+	//g->parentScene = this;
 }
 
 void Scene::DeleteGameObject(const char* key)
@@ -46,6 +48,10 @@ void Scene::Update(float deltaTime)
 		{
 			mpair.second->Update(deltaTime);
 		}
+		else
+		{
+			gameObjects.erase(mpair.first);
+		}
 	}
 }
 
@@ -56,6 +62,10 @@ void Scene::Draw(float deltaTime, sf::RenderWindow& window)
 		if (mpair.second != nullptr)
 		{
 			mpair.second->Draw(window);
+		}
+		else
+		{
+			gameObjects.erase(mpair.first);
 		}
 	}
 }
@@ -68,6 +78,10 @@ void Scene::HandleInput(sf::Event event)
 		{
 			mpair.second->HandleInput(event);
 		}
+		else
+		{
+			gameObjects.erase(mpair.first);
+		}
 	}
 
 	switch (event.type)
@@ -76,6 +90,12 @@ void Scene::HandleInput(sf::Event event)
 		break;
 
 	case sf::Event::KeyPressed:
+	{
+		for (const auto& mpair : gameObjects)
+		{
+			std::cout << mpair.first << std::endl;
+		}
+	}
 		break;
 
 	case sf::Event::KeyReleased:
@@ -98,5 +118,24 @@ void Scene::ApplyPhysics(float deltaTime)
 	}
 
 	Physics::CalculatePositions(sceneObjectsVector);
-	Physics::CalculateCollisions(gameObjects);
+	Physics::CalculateCollisions(sceneObjectsVector, this);
+}
+
+void Scene::OnCollision(GameObject & first, GameObject & second)
+{
+}
+
+void Scene::ClearObsolete()
+{
+	for (const auto& mpair : gameObjects)
+	{
+		if (mpair.second != nullptr)
+		{
+			if (mpair.second->IsObsolete())
+			{
+				gameObjects.erase(mpair.first);
+				break;
+			}
+		}
+	}
 }

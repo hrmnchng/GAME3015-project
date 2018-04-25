@@ -2,7 +2,6 @@
 #define PLAYER_H
 
 #include "GameObject.h"
-#include "LaserShot.h"
 
 class Player : public GameObject {
 

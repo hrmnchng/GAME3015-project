@@ -21,7 +21,7 @@ InfiniteBackground::~InfiniteBackground()
 
 void InfiniteBackground::Update(float deltaTime)
 {
-	bgTextureRect.top -= 3.75f;
+	bgTextureRect.top -= 5.75f;
 	bgSprite.setTextureRect(bgTextureRect);
 }
 

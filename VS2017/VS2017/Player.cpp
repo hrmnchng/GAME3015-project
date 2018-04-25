@@ -1,17 +1,21 @@
 #include "Player.h"
 #include "Rigidbody.h"
-#include "WindowManager.h"
+#include "LaserShot.h"
+#include "Asteroid.h"
+#include "CombustionEngine.h"
 #include <iostream>
 using namespace::std;
 
 Player::Player(const char* spriteName)
 {
 	this->AddComponent("Rigidbody", new Rigidbody());
+	this->AddComponent("AudioEmitter", new AudioEmitterComponent("../../Assets/lasershot.ogg", false, true, false));
 
 	this->health = 100.0f;
-	this->speedMult = 1.0f;
+	this->speedMult = 5.0f;
 
 	this->GetRigidbody()->useGravity = false;
+	this->GetRigidbody()->SetVelocity(0.0f, 0.0f);
 	this->SetSprite(spriteName);
 	
 	this->setScale(0.3f, 0.3f);
@@ -35,8 +39,9 @@ Player::~Player()
 
 void Player::Update(float deltaTime)
 {
-	float windowWidth = WindowManager::rm().getWindow().getSize().x;
-	float windowHeight = WindowManager::rm().getWindow().getSize().y;
+	float windowWidth = WINDOW_WIDTH;
+	float windowHeight = WINDOW_HEIGHT;
+
 	float playerWidth = this->sprite.getLocalBounds().width * getScale().x;
 	float playerHeight = this->sprite.getLocalBounds().height * getScale().y;
 
@@ -57,19 +62,20 @@ void Player::Update(float deltaTime)
 	if (getPosition().y < top)
 		setPosition(getPosition().x, top);
 
-
-	GetRigidbody()->NormalizeVelocity();
-	GetRigidbody()->SetVelocity(GetRigidbody()->GetVelocity() * speedMult);
-
-	std::cout << "Player x: " << getPosition().x << " , y: " << getPosition().y << std::endl;
-
+	//std::cout << "Player x: " << getPosition().x << " , y: " << getPosition().y << " ,vel:" << getRotation() << std::endl;
 	this->GameObject::Update(deltaTime);
+	
 }
 
 void Player::OnCollision(GameObject& other)
 {
 	GameObject::OnCollision(other);
-	std::cout << "Player collided with asteroid!" << std::endl;
+	if (typeid(other) == typeid(Asteroid))
+	{
+		DemoScene* parentScene = static_cast<DemoScene*>(CombustionEngine::sceneGraph.GetScene("demo"));
+		parentScene->RespawnPlayer();
+		//other.SetObsolete();
+	}
 }
 
 void Player::HandleInput(sf::Event event)
@@ -100,19 +106,11 @@ void Player::HandleInput(sf::Event event)
 
 	case sf::Event::KeyPressed:
 	{
-		if (event.key.code == sf::Keyboard::W)
-		{
-			speedMult = 5.0f;
-		}
 	}
 	break;
 
 	case sf::Event::KeyReleased:
 	{
-		if (event.key.code == sf::Keyboard::W)
-		{
-			speedMult = 1.0f;
-		}
 	}
 	break;
 
@@ -124,6 +122,8 @@ void Player::HandleInput(sf::Event event)
 void Player::Fire(float mouseX, float mouseY)
 {
 	std::cout << "Pew pew\n";
+	AudioEmitterComponent* audioEmitter = static_cast<AudioEmitterComponent*>(GetComponent("AudioEmitter"));
+	audioEmitter->sound.play();
 
 	sf::Vector2f mousePosition(mouseX, mouseY);
 	sf::Vector2f dir = mousePosition - getPosition();
@@ -131,5 +131,6 @@ void Player::Fire(float mouseX, float mouseY)
 	dir *= 10.0f;
 
 	LaserShot* laserShot = new LaserShot(getPosition(), dir, getRotation());
+
 	AddChild(laserShot);
 }

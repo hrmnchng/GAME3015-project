@@ -26,27 +26,42 @@ void Physics::CalculatePositions(std::vector<GameObject*> sceneObjects)
 	}
 }
 
-void Physics::CalculateCollisions(std::map<std::string, GameObject*> sceneObjects)
+void fetchAllObjects(std::vector<GameObject*> toAdd, std::vector<GameObject*>& container)
 {
-	for (const auto& mpair : sceneObjects)
+	for (std::size_t i = 0; i < toAdd.size(); ++i)
 	{
-		if (mpair.second != nullptr)
-		{
-			BoxCollider* collider = mpair.second->GetCollider();
-			if (collider == nullptr) continue;
+		container.push_back(toAdd[i]);
+		fetchAllObjects(toAdd[i]->children, container);
+	}
+}
 
-			for (const auto& _mpair : sceneObjects)
+void Physics::CalculateCollisions(std::vector<GameObject*> sceneObjects, Scene* currentScene)
+{
+	std::vector<GameObject*> allObjects;
+	fetchAllObjects(sceneObjects, allObjects);
+
+	for (std::size_t i = 0; i < allObjects.size(); ++i)
+	{
+		BoxCollider* collider = allObjects[i]->GetCollider();
+		if (collider != nullptr)
+		{
+			for (std::size_t j = 0; j < allObjects.size(); ++j)
 			{
-				if (_mpair.first == mpair.first) continue;
-				
-				BoxCollider* _collider = _mpair.second->GetCollider();
-				if (_collider == nullptr) continue;
-	
-				if (collider->boundingBox.getGlobalBounds().intersects(_collider->boundingBox.getGlobalBounds()))
+				if (allObjects[i] == allObjects[j]) continue;
+				BoxCollider* _collider = allObjects[j]->GetCollider();
+				if (_collider != nullptr)
 				{
-					mpair.second->OnCollision(*_mpair.second);
+					if (collider->boundingBox.getGlobalBounds().intersects(_collider->boundingBox.getGlobalBounds()))
+					{
+						allObjects[i]->OnCollision(*allObjects[j]);
+						currentScene->OnCollision(*allObjects[i], *allObjects[j]);
+					}
 				}
 			}
 		}
 	}
+}
+
+void Physics::ResolveCollisions()
+{
 }

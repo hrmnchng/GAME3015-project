@@ -29,6 +29,8 @@ void CombustionEngine::GameLoop()
 
 	while (mainWindow.isOpen())
 	{
+		sceneGraph.ClearObsolete();
+
 		sf::Event event;
 		float elapsed = clock.restart().asSeconds() / 1000.0f;
 		while (mainWindow.pollEvent(event))

@@ -1,4 +1,6 @@
 #include <SFML\Graphics.hpp>
+#define WINDOW_WIDTH 1400
+#define WINDOW_HEIGHT 1024
 
 class WindowManager
 {

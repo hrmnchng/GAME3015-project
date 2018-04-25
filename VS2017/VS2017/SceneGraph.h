@@ -12,12 +12,14 @@ public:
 	~SceneGraph(void);
 
 	void AddScene(const char*, Scene*);
+	Scene* GetScene(const char*);
 	void DeleteScene(const char*);
 	void LoadScene(const char*);
 
 	void Start();
 	void CalculatePhysics(float deltaTime);
 	void HandleInput(sf::Event);
+	void ClearObsolete();
 	void Update(float deltaTime);
 	void Draw(float deltaTime, sf::RenderWindow&);
 

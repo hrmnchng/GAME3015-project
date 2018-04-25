@@ -13,7 +13,6 @@ class GameObject: public sf::Transformable {
 
 public:
 	GameObject* parent;
-
 	sf::Sprite sprite;
 
 	std::vector<GameObject*> children;
@@ -24,6 +23,8 @@ public:
 
 	void AddChild(GameObject* c);
 	void RemoveChild(GameObject* c);
+	bool IsObsolete();
+	bool SetObsolete() { return _m_should_delete = true; }
 
 	void SetSprite(std::string filepath);
 
@@ -47,5 +48,7 @@ public:
 private:
 	sf::Image image;
 	sf::Texture texture;
+
+	bool _m_should_delete;
 };
 #endif

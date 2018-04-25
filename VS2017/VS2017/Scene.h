@@ -1,8 +1,8 @@
+#pragma once
 #ifndef SCENE_H
 #define SCENE_H
 
 #include "GameObject.h"
-#include "Physics.h"
 #include "SFML/Graphics.hpp"
 #include <memory>
 
@@ -26,6 +26,9 @@ public:
 	virtual void Draw(float, sf::RenderWindow&);
 	virtual void HandleInput(sf::Event);
 	virtual void ApplyPhysics(float);
+	virtual void OnCollision(GameObject& first, GameObject& second);
+
+	void ClearObsolete();
 
 protected:
 	std::string name;

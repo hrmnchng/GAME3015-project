@@ -5,7 +5,7 @@
 
 GameObject::GameObject()
 {
-
+	_m_should_delete = false;
 }
 
 GameObject::~GameObject()
@@ -28,7 +28,18 @@ void GameObject::AddChild(GameObject* c)
 	c->SetParent(*this);
 }
 
-void GameObject::RemoveChild(GameObject* c)
+void GameObject::RemoveChild(GameObject *c)
+{
+	children.erase(std::remove(children.begin(), children.end(), c), children.end());
+	c->RemoveParent();
+}
+
+bool GameObject::IsObsolete()
+{
+	return _m_should_delete;
+}
+
+/*void GameObject::RemoveChild(GameObject* c)
 {
 	for (std::vector<GameObject*>::iterator it = children.begin(); it != children.end(); ++it)
 	{
@@ -39,7 +50,7 @@ void GameObject::RemoveChild(GameObject* c)
 			break;
 		}
 	}
-}
+}*/
 
 void GameObject::AddComponent(const char* key, Component* c) {
 	objectComponents.insert(std::pair <const char*, Component*>(key, c));
